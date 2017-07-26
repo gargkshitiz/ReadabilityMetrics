@@ -2,8 +2,10 @@ package com.test.readability;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Service;
@@ -24,6 +26,11 @@ import com.aliasi.tokenizer.TokenizerFactory;
 @Service
 public class ReadabilityService {
 
+	/**
+	 * This list is just to demo the machine learning aspect. Needs to be maintained somewhere in DB/Cache
+	 */
+	private final Set<String> complexWordList = new HashSet<>();
+	
 	private static final Pattern VOWELS = Pattern.compile("[^aeiouy]+");
 
 	private static final String[] staticSubMatches = { "cial", "tia", "cius", "cious", "giu", "ion", "iou" };
@@ -46,7 +53,7 @@ public class ReadabilityService {
 			int syllableCount = 0;
 			if (w.length() > 0) {
 				syllableCount = getSyllablesCount(w);
-				if (syllableCount>2) {
+				if (syllableCount>2 && !complexWordList.contains(w)) {
 					complexWords.add(w);
 					complex++;
 				}
@@ -216,6 +223,10 @@ public class ReadabilityService {
 		readabilityScores.setFleschReadingEase(fleschReadingEase);
 		readabilityScores.setGunningFogScore(gunningFogScore);
 		return readabilityScores;
+	}
+
+	public void learnComplexWord(String complexWord) {
+		complexWordList.add(complexWord);
 	}
 
 }

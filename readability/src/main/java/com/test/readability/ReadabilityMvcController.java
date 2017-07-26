@@ -15,20 +15,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping(value = {"/demo/readability"})
 public class ReadabilityMvcController {
 
-	private static final String TEXT = "text";
-	
+	private static final String API_INPUT = "apiInput";
+
+	private static final String READABILITY = "readability";
+
 	@Autowired
 	private ReadabilityService readabilityService;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String demoGet() {
-        return "readability";
+	public String demoGet(Model model) {
+		model.addAttribute(API_INPUT, new ApiInput());
+        return READABILITY;
     }
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public String demoPost(Model model, @ModelAttribute(TEXT) String text) {
-		model.addAttribute("scores", readabilityService.getReadabilityScores(text));
-        return "readability";
+	public String demoPost(Model model, @ModelAttribute(API_INPUT) ApiInput apiInput) {
+		model.addAttribute("scores", readabilityService.getReadabilityScores(apiInput.getText()));
+		model.addAttribute(API_INPUT, apiInput);
+        return READABILITY;
     }
-
+	
 }

@@ -62,5 +62,11 @@ public class ReadabilityScores {
 	public void setAverageWordsPerSentence(double averageWordsPerSentence) {
 		this.averageWordsPerSentence = averageWordsPerSentence;
 	}
+	@Override
+	public String toString() {
+		return "gunningFogScore=" + gunningFogScore + "\nfleschReadingEase=" + fleschReadingEase
+				+ "\nsyllables=" + syllables + "\nwords=" + words + "\nsentences=" + sentences + "\ncomplexWordCount="
+				+ complexWordCount + "\naverageWordsPerSentence=" + averageWordsPerSentence;
+	}
 	
 }
