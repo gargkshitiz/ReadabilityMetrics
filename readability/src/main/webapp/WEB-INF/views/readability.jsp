@@ -30,10 +30,10 @@
 		</form:form>
 		<c:if test="${not empty scores}">
 			<h4>Readability metrics</h4>
-			<textarea name="text" cols="50" rows="8">${scores}</textarea>
+			<textarea id="scoresTextArea" name="text" cols="50" rows="8">${scores}</textarea>
 			<c:if test="${not empty scores.complexWords}">
 				<h4>Complex words</h4>
-				<textarea name="text" cols="150" rows="2">${scores.complexWords}</textarea>
+				<textarea name="text" id="complexWordsTextArea" cols="150" rows="2">${scores.complexWords}</textarea>
 				<button class="btn btn-lg btn-primary" onclick="learnWord()">Teach me not to interpret a word as complex</button>
 				<input type="text" id="complexWord" placeholder="Enter word here" />
 			</c:if>
@@ -53,10 +53,12 @@
 			data: '{"text":"'+inputText+'"}',
 			processData: false,
 			success : function(scores) {
-				// This will make a fresh call for the whole HTML
-				$('#analyzeText').click();
 				// This is to ensure that the whole HTML is not pulled again
+				//$('#complexWordsTextArea').val(scores.complexWords);
+				//$('#scoresTextArea').val(scores.gunningFogScore+"\n"+scores.fleschReadingEase);
 				
+				//This will make a fresh call for the whole HTML
+				$('#analyzeText').click();
 			}
 		})
 		return false;
