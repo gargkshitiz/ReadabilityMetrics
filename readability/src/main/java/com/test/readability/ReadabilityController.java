@@ -1,7 +1,6 @@
 package com.test.readability;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,14 +19,10 @@ public class ReadabilityController {
 	@Autowired
 	private ReadabilityService readabilityService;
 	
-	@RequestMapping(value="/api/readability", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-	public ReadabilityScores getScores(@RequestBody String text) {
-		return readabilityService.getReadabilityScores(text);
-	}
-	
 	@RequestMapping(path="/learncomplexword/{word}", method = RequestMethod.POST)
-	public void learnComplexWord(@PathVariable String word) {
+	public ReadabilityScores learnComplexWord(@PathVariable String word, @RequestBody ApiInput apiInput) {
 		readabilityService.learnComplexWord(word);
+		return readabilityService.getReadabilityScores(apiInput.getText());
 	}
 
 

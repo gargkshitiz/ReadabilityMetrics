@@ -18,23 +18,26 @@
 </head>
 <body>
 	<div class="container">
+		<p><a role="button" href="https://en.wikipedia.org/wiki/Gunning-Fog_Index" target="_blank">Gunning Fog Index score interpretation</a></p>
+		<p><a role="button" href="https://en.wikipedia.org/wiki/Flesch-Kincaid_Readability_Test" target="_blank">Flesch Kincaid Readability score interpretation</a></p>
 		<form:form method="POST" modelAttribute="apiInput" action="${contextPath}/demo/readability">
-			<h2 class="form-heading">Enter Text</h2>
+			<h4 class="form-heading">Enter Text</h4>
 			<spring:bind path="text">
-				<textarea name="text" cols="150" rows="10">${apiInput.text}</textarea>
+				<textarea id="inputText" name="text" cols="150" rows="10">${apiInput.text}</textarea>
 			</spring:bind>
 			<br /> 
-			<button class="btn btn-lg btn-primary" type="submit">Analyze text</button>
+			<button id="analyzeText" class="btn btn-lg btn-primary" type="submit">Analyze text</button>
 		</form:form>
-		<h2>Readability metrics</h2>
-		<textarea name="text" cols="50" rows="10">${scores}</textarea>
-		<c:if test="${not empty scores.complexWords}">
-			<h3>Complex words</h3>
-			<textarea name="text" cols="150" rows="2">${scores.complexWords}</textarea>
+		<c:if test="${not empty scores}">
+			<h4>Readability metrics</h4>
+			<textarea name="text" cols="50" rows="8">${scores}</textarea>
+			<c:if test="${not empty scores.complexWords}">
+				<h4>Complex words</h4>
+				<textarea name="text" cols="150" rows="2">${scores.complexWords}</textarea>
+				<button class="btn btn-lg btn-primary" onclick="learnWord()">Teach me not to interpret a word as complex</button>
+				<input type="text" id="complexWord" placeholder="Enter word here" />
+			</c:if>
 		</c:if>
-		<button class="btn btn-lg btn-primary" onclick="learnWord()">Teach me not to interpret a word as complex</button>
-		<input type="text" id="complexWord" placeholder="Enter word here" />
-		<span id="successMsg" hidden="true">Success. Please analyze the text again. This word won't be considered complex from now on</span>
 	</div>
 	<script	src="${contextPath}/resources/js/jquery.min.js"></script>
 	<script src="${contextPath}/resources/js/bootstrap.min.js"></script>
@@ -42,12 +45,18 @@
 	function learnWord(){
 		var url = "${pageContext.request.getScheme()}://${pageContext.request.getServerName()}:${pageContext.request.getServerPort()}${pageContext.request.getContextPath()}/learncomplexword/";
 		var complexWord = $('#complexWord').val();
+		var inputText = $('#inputText').val();
 		$.ajax({
+			contentType: 'application/json',
 			url : url+complexWord,
 			type : "POST",
-			success : function() {
-				$('#complexWord').val("");
-				$('#successMsg').show();
+			data: '{"text":"'+inputText+'"}',
+			processData: false,
+			success : function(scores) {
+				// This will make a fresh call for the whole HTML
+				$('#analyzeText').click();
+				// This is to ensure that the whole HTML is not pulled again
+				
 			}
 		})
 		return false;
