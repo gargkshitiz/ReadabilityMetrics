@@ -124,6 +124,9 @@ public class ReadabilityService {
 		return builder.toString().toLowerCase();
 	}
     
+    /*
+     * TODO: Improve its performance
+     */
     private int getSyllablesCount(String word) {
 
 		word = word.toLowerCase();
@@ -175,7 +178,9 @@ public class ReadabilityService {
 
 		return syl;
 	}
-    
+    /*
+     * TODO: Improve its performance
+     */
 	private String[] getSentences(String text) {
 		TokenizerFactory TOKENIZER_FACTORY = new IndoEuropeanTokenizerFactory();
 		SentenceModel SENTENCE_MODEL = new IndoEuropeanSentenceModel();
