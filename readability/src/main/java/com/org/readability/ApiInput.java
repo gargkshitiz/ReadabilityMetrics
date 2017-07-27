@@ -1,4 +1,4 @@
-package com.test.readability;
+package com.org.readability;
 
 public class ApiInput {
 

@@ -1,4 +1,4 @@
-package com.test.readability;
+package com.org.readability;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

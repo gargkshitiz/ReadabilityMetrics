@@ -1,4 +1,4 @@
-package com.test.readability;
+package com.org.readability;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
