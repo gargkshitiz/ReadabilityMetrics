@@ -6,7 +6,7 @@
 	<groupId>com.demo.readability</groupId>
 	<artifactId>readability</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>readability</name>
 	<description>Readability project</description>
@@ -64,6 +64,7 @@
 
 	<build>
 		<plugins>
+			<!-- Package as an executable jar/war -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>

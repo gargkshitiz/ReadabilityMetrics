@@ -13,8 +13,8 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<title>Readability score - Demo</title>
-	<link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-	<link href="${contextPath}/resources/css/common.css" rel="stylesheet">
+	<link href="${contextPath}/resources/static/css/bootstrap.min.css" rel="stylesheet">
+	<link href="${contextPath}/resources/static/css/common.css" rel="stylesheet">
 </head>
 <body>
 	<div class="container">
@@ -39,8 +39,8 @@
 			</c:if>
 		</c:if>
 	</div>
-	<script	src="${contextPath}/resources/js/jquery.min.js"></script>
-	<script src="${contextPath}/resources/js/bootstrap.min.js"></script>
+	<script	src="${contextPath}/resources/static/js/jquery.min.js"></script>
+	<script src="${contextPath}/resources/static/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
 	function learnWord(){
 		var url = "${pageContext.request.getScheme()}://${pageContext.request.getServerName()}:${pageContext.request.getServerPort()}${pageContext.request.getContextPath()}/learncomplexword/";

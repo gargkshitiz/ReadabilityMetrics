@@ -21,7 +21,7 @@ import com.aliasi.tokenizer.TokenizerFactory;
  * 
  * @author Kshitiz Garg
  * Inspired from https://github.com/ipeirotis/ReadabilityMetrics
- * 
+ * https://www.webpagefx.com/tools/read-able/check.php
  */
 @Service
 public class ReadabilityService {
