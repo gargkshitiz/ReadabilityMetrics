@@ -61,12 +61,12 @@ public class ReadabilityService {
 				syllables = syllables + syllableCount;
 			}
 		}
-		ReadabilityMetrics readabilityScores = new ReadabilityMetrics();
-		readabilityScores.setComplexWordCount(complex);
-		readabilityScores.setComplexWords(complexWords);
-		readabilityScores.setSyllables(syllables);
-		readabilityScores.setWords(words);
-		return readabilityScores;
+		ReadabilityMetrics readabilityMetrics = new ReadabilityMetrics();
+		readabilityMetrics.setComplexWordCount(complex);
+		readabilityMetrics.setComplexWords(complexWords);
+		readabilityMetrics.setSyllables(syllables);
+		readabilityMetrics.setWords(words);
+		return readabilityMetrics;
 	}
     
     private int getNumberOfSentences(String text) {
