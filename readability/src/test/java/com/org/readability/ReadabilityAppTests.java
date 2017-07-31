@@ -6,6 +6,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.Arrays;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
 @RunWith(SpringRunner.class)
@@ -24,6 +29,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 //@TestPropertySource(locations = "classpath:application-integrationtest.properties")
 public class ReadabilityAppTests {
 
+	private static final String TEXT_VALUE = "Hi this is Kshitiz. This awesome text should have one complex word.";
 	@Autowired
 	private MockMvc mvc;
 
@@ -33,19 +39,26 @@ public class ReadabilityAppTests {
 	@Test
 	public void whenGetDemoJsp_thenStatus200() throws Exception {
 		mvc.perform(get("/demo/readability").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
-				//.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				//.andExpect(jsonPath("$[0].name", is("bob")));
 	}
 	
 	@Test
 	public void whenPostComplexWordWithText_thenStatus200() throws Exception {
+		ApiInput apiInput = new ApiInput();
+		apiInput.setText(TEXT_VALUE);
+		String json = new ObjectMapper().writeValueAsString(apiInput);
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
-				.post("/learncomplexword/complexWord").accept(MediaType.APPLICATION_JSON_VALUE)
-				.content("Hi this is Kshitiz. This text should have one complex word.");
-				//.contentType(MediaType.APPLICATION_JSON);
-		mvc.perform(requestBuilder).andExpect(status().isOk());
-				//.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				//.andExpect(jsonPath("$[0].name", is("bob")));
+				.post("/learncomplexword/complexWord").content(json)
+				.contentType(MediaType.APPLICATION_JSON);
+		mvc.perform(requestBuilder).andExpect(status().isOk())
+				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("gunningFogScore", is(5.6)))
+				.andExpect(jsonPath("fleschReadingEase", is(87.945)))
+				.andExpect(jsonPath("syllables", is(16)))
+				.andExpect(jsonPath("words", is(12)))
+				.andExpect(jsonPath("sentences", is(2)))
+				.andExpect(jsonPath("complexWordCount", is(1)))
+				.andExpect(jsonPath("averageWordsPerSentence", is(6.0)))
+				.andExpect(jsonPath("complexWords", is(Arrays.asList("awesome"))));
 	}
 	
 }
