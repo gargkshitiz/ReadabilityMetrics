@@ -42,7 +42,7 @@ public class ReadabilityService {
 			Pattern.compile(".*isms$"), Pattern.compile(".*([^aeiouy])\\1l$"), Pattern.compile(".*[^l]lien.*"),
 			Pattern.compile("^coa[dglx]..*"), Pattern.compile(".*[^gq]ua[^auieo].*"), Pattern.compile(".*dnt$") };
 	
-    private ReadabilityScores getNumberOfWordsSyllablesAndComplexWords(String text) {
+    private ReadabilityMetrics getNumberOfWordsSyllablesAndComplexWords(String text) {
 		String cleanText = getCleanText(text);
 		String[] word = cleanText.split(" ");
 		int words = 0;
@@ -61,7 +61,7 @@ public class ReadabilityService {
 				syllables = syllables + syllableCount;
 			}
 		}
-		ReadabilityScores readabilityScores = new ReadabilityScores();
+		ReadabilityMetrics readabilityScores = new ReadabilityMetrics();
 		readabilityScores.setComplexWordCount(complex);
 		readabilityScores.setComplexWords(complexWords);
 		readabilityScores.setSyllables(syllables);
@@ -216,9 +216,9 @@ public class ReadabilityService {
 		return result;
 	}
     
-	public ReadabilityScores getReadabilityScores(String text) {
+	public ReadabilityMetrics getReadabilityMetrics(String text) {
 		
-		ReadabilityScores readabilityScores = getNumberOfWordsSyllablesAndComplexWords(text);
+		ReadabilityMetrics readabilityScores = getNumberOfWordsSyllablesAndComplexWords(text);
 		int numberOfSentences = getNumberOfSentences(text);
 		readabilityScores.setSentences(numberOfSentences);
 		readabilityScores.setAverageWordsPerSentence(readabilityScores.getWords()/numberOfSentences);

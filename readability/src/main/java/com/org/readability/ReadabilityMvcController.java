@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
+ * Renders /demo/readability jsp
  * 
  * @author Kshitiz Garg
  */
@@ -30,7 +31,7 @@ public class ReadabilityMvcController {
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public String demoPost(Model model, @ModelAttribute(API_INPUT) ApiInput apiInput) {
-		model.addAttribute("scores", readabilityService.getReadabilityScores(apiInput.getText()));
+		model.addAttribute("metrics", readabilityService.getReadabilityMetrics(apiInput.getText()));
 		model.addAttribute(API_INPUT, apiInput);
         return READABILITY;
     }

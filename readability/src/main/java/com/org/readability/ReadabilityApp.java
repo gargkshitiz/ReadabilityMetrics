@@ -6,6 +6,11 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 
+/**
+ * Spring boot app launcher
+ * 
+ * @author Kshitiz Garg
+ */
 @SpringBootApplication
 @ComponentScan(basePackages="com.org.*")
 public class ReadabilityApp extends SpringBootServletInitializer {

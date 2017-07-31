@@ -1,5 +1,9 @@
 package com.org.readability;
-
+/**
+ * Json input for REST controller
+ * 
+ * @author Kshitiz Garg
+ */
 public class ApiInput {
 
 	private String text;

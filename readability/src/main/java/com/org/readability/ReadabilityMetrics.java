@@ -1,8 +1,12 @@
 package com.org.readability;
 
 import java.util.List;
-
-public class ReadabilityScores {
+/**
+ * Json output for accessing metrics
+ * 
+ * @author Kshitiz Garg
+ */
+public class ReadabilityMetrics {
 	
 	private double gunningFogScore;
 	private double fleschReadingEase;

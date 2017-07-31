@@ -12,7 +12,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<title>Readability score - Demo</title>
+	<title>Readability metrics - Demo</title>
 	<link href="${contextPath}/resources/static/css/bootstrap.min.css" rel="stylesheet">
 	<link href="${contextPath}/resources/static/css/common.css" rel="stylesheet">
 </head>
@@ -28,12 +28,12 @@
 			<br /> 
 			<button id="analyzeText" class="btn btn-lg btn-primary" type="submit">Analyze text</button>
 		</form:form>
-		<c:if test="${not empty scores}">
+		<c:if test="${not empty metrics}">
 			<h4>Readability metrics</h4>
-			<textarea id="scoresTextArea" name="text" cols="50" rows="8">${scores}</textarea>
-			<c:if test="${not empty scores.complexWords}">
+			<textarea id="metricsTextArea" name="text" cols="50" rows="8">${metrics}</textarea>
+			<c:if test="${not empty metrics.complexWords}">
 				<h4>Complex words</h4>
-				<textarea name="text" id="complexWordsTextArea" cols="150" rows="2">${scores.complexWords}</textarea>
+				<textarea name="text" id="complexWordsTextArea" cols="150" rows="2">${metrics.complexWords}</textarea>
 				<button class="btn btn-lg btn-primary" onclick="learnWord()">Teach me not to interpret a word as complex</button>
 				<input type="text" id="complexWord" placeholder="Enter word here" />
 			</c:if>
@@ -52,10 +52,10 @@
 			type : "POST",
 			data: '{"text":"'+inputText+'"}',
 			processData: false,
-			success : function(scores) {
+			success : function(metrics) {
 				// This is to ensure that the whole HTML is not pulled again
-				//$('#complexWordsTextArea').val(scores.complexWords);
-				//$('#scoresTextArea').val(scores.gunningFogScore+"\n"+scores.fleschReadingEase);
+				//$('#complexWordsTextArea').val(metrics.complexWords);
+				//$('#metricsTextArea').val(metrics.gunningFogScore+"\n"+metrics.fleschReadingEase);
 				
 				//This will make a fresh call for the whole HTML
 				$('#analyzeText').click();

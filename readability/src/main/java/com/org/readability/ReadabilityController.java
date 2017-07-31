@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * A RESTFul controller for accessing readability scores
+ * A RESTFul controller for learning a complex word and get back readability scores
  * 
  * @author Kshitiz Garg
  */
@@ -20,9 +20,9 @@ public class ReadabilityController {
 	private ReadabilityService readabilityService;
 	
 	@RequestMapping(path="/learncomplexword/{word}", method = RequestMethod.POST)
-	public ReadabilityScores learnComplexWord(@PathVariable String word, @RequestBody ApiInput apiInput) {
+	public ReadabilityMetrics learnComplexWord(@PathVariable String word, @RequestBody ApiInput apiInput) {
 		readabilityService.learnComplexWord(word);
-		return readabilityService.getReadabilityScores(apiInput.getText());
+		return readabilityService.getReadabilityMetrics(apiInput.getText());
 	}
 
 
