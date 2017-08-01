@@ -2,12 +2,11 @@ package com.org.readability.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.aliasi.sentences.IndoEuropeanSentenceModel;
@@ -15,6 +14,8 @@ import com.aliasi.sentences.SentenceModel;
 import com.aliasi.tokenizer.IndoEuropeanTokenizerFactory;
 import com.aliasi.tokenizer.Tokenizer;
 import com.aliasi.tokenizer.TokenizerFactory;
+import com.org.readability.model.ComplexWord;
+import com.org.readability.repo.ComplexWordRepo;
 
 /**
  * Implements various readability indexes
@@ -26,11 +27,11 @@ import com.aliasi.tokenizer.TokenizerFactory;
 @Service
 public class ReadabilityService {
 
+	@Autowired
+    private ComplexWordRepo wordRepository;
 	/**
 	 * This list is just to demo the machine learning aspect. Needs to be maintained somewhere in DB/Cache
 	 */
-	private final Set<String> complexWordList = new HashSet<>();
-	
 	private static final Pattern VOWELS = Pattern.compile("[^aeiouy]+");
 
 	private static final String[] staticSubMatches = { "cial", "tia", "cius", "cious", "giu", "ion", "iou" };
@@ -53,7 +54,7 @@ public class ReadabilityService {
 			int syllableCount = 0;
 			if (w.length() > 0) {
 				syllableCount = getSyllablesCount(w);
-				if (syllableCount>2 && !complexWordList.contains(w)) {
+				if (syllableCount>2 && wordRepository.findByWord(w)==null) {
 					complexWords.add(w);
 					complex++;
 				}
@@ -230,8 +231,12 @@ public class ReadabilityService {
 		return readabilityScores;
 	}
 
-	public void learnComplexWord(String complexWord) {
-		complexWordList.add(complexWord);
+	public void learnComplexWord(String word) {
+		if(wordRepository.findByWord(word)==null) {
+			ComplexWord complexWord = new ComplexWord();
+			complexWord.setWord(word);
+			wordRepository.save(complexWord);
+		}
 	}
 
 }
