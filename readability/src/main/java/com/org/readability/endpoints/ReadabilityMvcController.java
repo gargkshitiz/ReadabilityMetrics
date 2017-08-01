@@ -16,7 +16,7 @@ import com.org.readability.service.ReadabilityService;
  * @author Kshitiz Garg
  */
 @Controller
-@RequestMapping(value = {"/demo/readability"})
+@RequestMapping(value = {"/demo"})
 public class ReadabilityMvcController {
 
 	private static final String API_INPUT = "apiInput";

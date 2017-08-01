@@ -20,7 +20,7 @@
 	<div class="container">
 		<p><a role="button" href="https://en.wikipedia.org/wiki/Gunning-Fog_Index" target="_blank">Gunning Fog Index score interpretation</a></p>
 		<p><a role="button" href="https://en.wikipedia.org/wiki/Flesch-Kincaid_Readability_Test" target="_blank">Flesch Kincaid Readability score interpretation</a></p>
-		<form:form method="POST" modelAttribute="apiInput" action="${contextPath}/demo/readability">
+		<form:form method="POST" modelAttribute="apiInput" action="${contextPath}/demo">
 			<h4 class="form-heading">Enter Text</h4>
 			<spring:bind path="text">
 				<textarea id="inputText" name="text" cols="150" rows="10">${apiInput.text}</textarea>
@@ -43,7 +43,7 @@
 	<script src="${contextPath}/resources/static/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
 	function learnWord(){
-		var url = "${pageContext.request.getScheme()}://${pageContext.request.getServerName()}:${pageContext.request.getServerPort()}${pageContext.request.getContextPath()}/learncomplexword/";
+		var url = "${pageContext.request.getScheme()}://${pageContext.request.getServerName()}:${pageContext.request.getServerPort()}${pageContext.request.getContextPath()}/api/learncomplexword/";
 		var complexWord = $('#complexWord').val();
 		var inputText = $('#inputText').val();
 		$.ajax({

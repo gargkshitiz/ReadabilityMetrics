@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
@@ -28,19 +29,19 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = ReadabilityApp.class)
 @AutoConfigureMockMvc
-//@TestPropertySource(locations = "classpath:application-integrationtest.properties")
+@TestPropertySource(locations = "classpath:application-integrationtest.properties")
 public class ReadabilityAppTests {
 
 	private static final String TEXT_VALUE = "Hi this is Kshitiz. This awesome text should have one complex word.";
 	@Autowired
 	private MockMvc mvc;
 
-/*	@Autowired
-	private TestRestTemplate restTemplate;*/
+	//@Autowired
+	//private TestRestTemplate restTemplate;
 
 	@Test
 	public void whenGetDemoJsp_thenStatus200() throws Exception {
-		mvc.perform(get("/demo/readability").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+		mvc.perform(get("/demo").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 	}
 	
 	@Test
@@ -49,7 +50,7 @@ public class ReadabilityAppTests {
 		apiInput.setText(TEXT_VALUE);
 		String json = new ObjectMapper().writeValueAsString(apiInput);
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
-				.post("/learncomplexword/complexWord").content(json)
+				.post("/api/learncomplexword/complexWord").content(json)
 				.contentType(MediaType.APPLICATION_JSON);
 		mvc.perform(requestBuilder).andExpect(status().isOk())
 				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))

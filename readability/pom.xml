@@ -22,6 +22,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<springfox-swagger2-version>2.7.0</springfox-swagger2-version>
 	</properties>
 
 	<dependencies>
@@ -59,7 +60,25 @@
 		<dependency>
 		    <groupId>javax.servlet</groupId>
 		    <artifactId>jstl</artifactId>
-		</dependency>		
+		</dependency>	
+
+		<!-- Start - Swagger UI Jar-->
+		
+		<dependency>
+		    <groupId>io.springfox</groupId>
+		    <artifactId>springfox-swagger2</artifactId>
+		    <version>${springfox-swagger2-version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>io.springfox</groupId>
+		    <artifactId>springfox-swagger-ui</artifactId>
+		    <version>${springfox-swagger2-version}</version>
+		</dependency>
+
+		<!-- End - Swagger UI Jar-->
+
+	
 	</dependencies>
 
 	<build>
