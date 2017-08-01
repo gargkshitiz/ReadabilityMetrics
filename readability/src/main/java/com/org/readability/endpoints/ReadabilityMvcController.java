@@ -11,7 +11,7 @@ import com.org.readability.entity.ApiInput;
 import com.org.readability.service.ReadabilityService;
 
 /**
- * Renders /demo/readability jsp
+ * Renders /readability/demo jsp
  * 
  * @author Kshitiz Garg
  */
