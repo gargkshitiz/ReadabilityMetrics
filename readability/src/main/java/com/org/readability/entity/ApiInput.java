@@ -1,4 +1,4 @@
-package com.org.readability;
+package com.org.readability.entity;
 /**
  * Json input for REST controller
  * 

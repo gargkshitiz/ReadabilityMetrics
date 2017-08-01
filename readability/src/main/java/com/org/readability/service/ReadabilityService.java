@@ -1,4 +1,4 @@
-package com.org.readability;
+package com.org.readability.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

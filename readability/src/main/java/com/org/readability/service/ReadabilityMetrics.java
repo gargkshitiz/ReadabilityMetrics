@@ -1,4 +1,4 @@
-package com.org.readability;
+package com.org.readability.service;
 
 import java.util.List;
 /**

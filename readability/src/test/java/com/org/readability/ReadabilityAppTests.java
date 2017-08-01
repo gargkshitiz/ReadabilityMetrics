@@ -20,6 +20,8 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.org.readability.entity.ApiInput;
+import com.org.readability.ReadabilityApp;
 
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 

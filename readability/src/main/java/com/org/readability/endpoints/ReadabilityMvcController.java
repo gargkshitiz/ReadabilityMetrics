@@ -1,4 +1,4 @@
-package com.org.readability;
+package com.org.readability.endpoints;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -6,6 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.org.readability.entity.ApiInput;
+import com.org.readability.service.ReadabilityService;
 
 /**
  * Renders /demo/readability jsp
