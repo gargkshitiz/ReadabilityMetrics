@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,7 @@ import com.org.readability.repo.ComplexWordRepo;
 @Service
 public class ReadabilityService {
 
+	public static final String INTERPRETATION_NA = "No interpretation available";
 	@Autowired
     private ComplexWordRepo wordRepository;
 	/**
@@ -42,6 +46,38 @@ public class ReadabilityService {
 			Pattern.compile(".*[aeiou]{3}.*"), Pattern.compile("^mc.*"), Pattern.compile(".*ism$"),
 			Pattern.compile(".*isms$"), Pattern.compile(".*([^aeiouy])\\1l$"), Pattern.compile(".*[^l]lien.*"),
 			Pattern.compile("^coa[dglx]..*"), Pattern.compile(".*[^gq]ua[^auieo].*"), Pattern.compile(".*dnt$") };
+	
+    
+	private static final Map<Double, String> gfeIndexAndReadingLevel =  new TreeMap<>();
+	private static final Map<Double, String> freAndSemantics =  new TreeMap<>();
+	
+    static {
+	    prepareSemantics();
+    }
+
+    @SuppressWarnings("boxing")
+	private static void prepareSemantics() {
+	    gfeIndexAndReadingLevel.put(17d, "College graduate"); 
+	    gfeIndexAndReadingLevel.put(16d,  "College senior");
+	    gfeIndexAndReadingLevel.put(15d,  "College junior");
+	    gfeIndexAndReadingLevel.put(14d,  "College sophomore");
+	    gfeIndexAndReadingLevel.put(13d,  "College freshman");
+	    gfeIndexAndReadingLevel.put(12d,  "High school senior");
+	    gfeIndexAndReadingLevel.put(11d,  "High school junior");
+	    gfeIndexAndReadingLevel.put(10d,  "High school sophomore");
+	    gfeIndexAndReadingLevel.put(9d,  "High school freshman");
+	    gfeIndexAndReadingLevel.put(8d,  "Eighth grade");
+	    gfeIndexAndReadingLevel.put(7d,  "Seventh grade");
+	    gfeIndexAndReadingLevel.put(6d,  "Sixth grade");
+	    
+	    freAndSemantics.put(90d, "Very easy to read. Easily understood by an average 11-year-old student"); 
+	    freAndSemantics.put(80d,  "Easy to read. Conversational English for consumers");
+	    freAndSemantics.put(70d,  "Fairly easy to read");
+	    freAndSemantics.put(60d,  "Plain English. Easily understood by 13-15 year-old students");
+	    freAndSemantics.put(50d,  "Fairly difficult to read");
+	    freAndSemantics.put(30d,  "Difficult to read");
+	    freAndSemantics.put(0d,  "Very difficult to read. Best understood by university graduates");
+	}
 	
     private ReadabilityMetrics getNumberOfWordsSyllablesAndComplexWords(String text) {
 		String cleanText = getCleanText(text);
@@ -87,7 +123,7 @@ public class ReadabilityService {
      * @param text
      * @return the Gunning-Fog Index for text
      */
-    private double getGunningFogScore(int numberOfWords, int numberOfSentences, int numberOfComplexWords ) {
+    private double getGunningFogIndex(int numberOfWords, int numberOfSentences, int numberOfComplexWords ) {
         double score = 0.4 * (numberOfWords/numberOfSentences + 100 * numberOfComplexWords/numberOfWords);
         return round(score, 3);
     }
@@ -218,19 +254,30 @@ public class ReadabilityService {
 	}
     
 	public ReadabilityMetrics getReadabilityMetrics(String text) {
-		
-		ReadabilityMetrics readabilityScores = getNumberOfWordsSyllablesAndComplexWords(text);
+		ReadabilityMetrics readabilityMetrics = getNumberOfWordsSyllablesAndComplexWords(text);
 		int numberOfSentences = getNumberOfSentences(text);
-		readabilityScores.setSentences(numberOfSentences);
-		readabilityScores.setAverageWordsPerSentence(readabilityScores.getWords()/numberOfSentences);
-		double fleschReadingEase = getFleschReadingEase(readabilityScores.getWords(),numberOfSentences, readabilityScores.getSyllables());
-		double gunningFogScore = getGunningFogScore(readabilityScores.getWords(), numberOfSentences, readabilityScores.getComplexWordCount());
-		
-		readabilityScores.setFleschReadingEase(fleschReadingEase);
-		readabilityScores.setGunningFogScore(gunningFogScore);
-		return readabilityScores;
+		readabilityMetrics.setSentences(numberOfSentences);
+		readabilityMetrics.setAverageWordsPerSentence(readabilityMetrics.getWords()/numberOfSentences);
+		double fleschReadingEase = getFleschReadingEase(readabilityMetrics.getWords(),numberOfSentences, readabilityMetrics.getSyllables());
+		double gunningFogIndex = getGunningFogIndex(readabilityMetrics.getWords(), numberOfSentences, readabilityMetrics.getComplexWordCount());
+		readabilityMetrics.setGunningFogIndex(gunningFogIndex);
+		readabilityMetrics.setGfiInterpretationText(getInterpretationText(gfeIndexAndReadingLevel, gunningFogIndex));
+		readabilityMetrics.setFleschReadingEase(fleschReadingEase);
+		readabilityMetrics.setFreInterpretationText(getInterpretationText(freAndSemantics, fleschReadingEase));
+		return readabilityMetrics;
 	}
 
+	private static String getInterpretationText(Map<Double, String> map, double valueToLookFor) {
+		String priorInterpretationText = INTERPRETATION_NA;
+		for(Entry<Double, String> entry: map.entrySet()) {
+			if(entry.getKey().doubleValue() > valueToLookFor) {
+				return priorInterpretationText;
+			}
+			priorInterpretationText = entry.getValue();
+		}
+		return priorInterpretationText;
+	}
+	
 	public void learnComplexWord(String word) {
 		if(wordRepository.findByWord(word)==null) {
 			ComplexWord complexWord = new ComplexWord();

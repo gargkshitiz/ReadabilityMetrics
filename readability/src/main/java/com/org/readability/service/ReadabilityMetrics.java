@@ -8,8 +8,10 @@ import java.util.List;
  */
 public class ReadabilityMetrics {
 	
-	private double gunningFogScore;
+	private double gunningFogIndex;
+	private String gfiInterpretationText;
 	private double fleschReadingEase;
+	private String freInterpretationText;
 	private int syllables;
 	private int words;
 	private int sentences;
@@ -18,11 +20,11 @@ public class ReadabilityMetrics {
 	
 	private List<String> complexWords;
 	
-	public double getGunningFogScore() {
-		return gunningFogScore;
+	public double getGunningFogIndex() {
+		return gunningFogIndex;
 	}
-	public void setGunningFogScore(double gunningFogScore) {
-		this.gunningFogScore = gunningFogScore;
+	public void setGunningFogIndex(double gunningFogIndex) {
+		this.gunningFogIndex = gunningFogIndex;
 	}
 	public double getFleschReadingEase() {
 		return fleschReadingEase;
@@ -66,11 +68,25 @@ public class ReadabilityMetrics {
 	public void setAverageWordsPerSentence(double averageWordsPerSentence) {
 		this.averageWordsPerSentence = averageWordsPerSentence;
 	}
+	public String getFreInterpretationText() {
+		return freInterpretationText;
+	}
+	public void setFreInterpretationText(String freInterpretationText) {
+		this.freInterpretationText = freInterpretationText;
+	}
+	public String getGfiInterpretationText() {
+		return gfiInterpretationText;
+	}
+	public void setGfiInterpretationText(String gfiInterpretationText) {
+		this.gfiInterpretationText = gfiInterpretationText;
+	}
 	@Override
 	public String toString() {
-		return "gunningFogScore=" + gunningFogScore + "\nfleschReadingEase=" + fleschReadingEase
-				+ "\nsyllables=" + syllables + "\nwords=" + words + "\nsentences=" + sentences + "\ncomplexWordCount="
-				+ complexWordCount + "\naverageWordsPerSentence=" + averageWordsPerSentence;
+		return "ReadabilityMetrics [gunningFogIndex=" + gunningFogIndex + ", gfiInterpretationText="
+				+ gfiInterpretationText + ", fleschReadingEase=" + fleschReadingEase + ", freInterpretationText="
+				+ freInterpretationText + ", syllables=" + syllables + ", words=" + words + ", sentences=" + sentences
+				+ ", complexWordCount=" + complexWordCount + ", averageWordsPerSentence=" + averageWordsPerSentence
+				+ "]";
 	}
 	
 }

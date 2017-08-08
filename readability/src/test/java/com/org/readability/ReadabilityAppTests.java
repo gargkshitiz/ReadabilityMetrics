@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.org.readability.entity.ApiInput;
+import com.org.readability.service.ReadabilityService;
 import com.org.readability.ReadabilityApp;
 
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -54,8 +55,10 @@ public class ReadabilityAppTests {
 				.contentType(MediaType.APPLICATION_JSON);
 		mvc.perform(requestBuilder).andExpect(status().isOk())
 				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("gunningFogScore", is(5.6)))
+				.andExpect(jsonPath("gunningFogIndex", is(5.6)))
+				.andExpect(jsonPath("gfiInterpretationText", is(ReadabilityService.INTERPRETATION_NA)))
 				.andExpect(jsonPath("fleschReadingEase", is(87.945)))
+				.andExpect(jsonPath("freInterpretationText", is("Easy to read. Conversational English for consumers")))
 				.andExpect(jsonPath("syllables", is(16)))
 				.andExpect(jsonPath("words", is(12)))
 				.andExpect(jsonPath("sentences", is(2)))
