@@ -53,9 +53,10 @@
 			data: '{"text":"'+inputText+'"}',
 			processData: false,
 			success : function(metrics) {
+				var data = JSON.parse(metrics);
 				// This is to ensure that the whole HTML is not pulled again
-				//$('#complexWordsTextArea').val(metrics.complexWords);
-				//$('#metricsTextArea').val(metrics.gunningFogScore+"\n"+metrics.fleschReadingEase);
+				//$('#complexWordsTextArea').val(data.complexWords);
+				//$('#metricsTextArea').val(data.gunningFogScore+"\n"+data.fleschReadingEase);
 				
 				//This will make a fresh call for the whole HTML
 				$('#analyzeText').click();
